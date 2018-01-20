@@ -1,7 +1,36 @@
 //list just type list
 //read and remove you reference by title
-
-const argv = require("yargs").argv;
+const yargs = require('yargs');
+const argv = yargs
+.command("add", "Adds a new note", {
+  title: {
+    describe: "Title of note",
+    alias: "t",
+    demandOption: true
+  },
+  body: {
+    describe: "Body of note",
+    alias: "b",
+    demandOption: true,
+  }
+})
+.command("remove", "Remove a note", {
+  title: {
+    describe: "Title of note",
+    alias: "t",
+    demandOption: true
+  }
+})
+.command("list", "List all notes")
+.command("read", "read a note", {
+  title: {
+    describe: "Title of note",
+    alias: "t",
+    demandOption: true
+  }
+})
+.help()
+.argv;
 // console.log(argv);
 const notes = require("./notes.js");
 
@@ -20,11 +49,16 @@ if (command === "add") {
     console.log("this note already exists");
   }
 } else if (command === "remove") {
-  console.log("Remove function chosen");
+  const title = argv.title;
+  notes.removeNote(title);
+  console.log();
 } else if (command === "read") {
-  console.log("read function chosen");
+  const title = argv.title;
+  notes.readNote(title);
+  console.log();
 } else if (command === "list") {
-  console.log("list function chosen");
+  notes.listNotes();
+  console.log();
 }
 
 // switch (command) {

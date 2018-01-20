@@ -13,19 +13,7 @@ const fetchNotes = () => {
 const saveNotes = (notes) => {
   fs.writeFileSync("notes-data.json", JSON.stringify(notes));
 }
-// const note1 = {
-//   title: "note1",
-//   body: "this is note1"
-// }
-//
-// const note2 = {
-//   title: "note2",
-//   body: "this is note2"
-// }
-//
-// const notes = [note1, note2];
-// saveNotes(notes);
-// console.log(typeof fetchNoteså());
+
 const addNote = (title, body) => {
   const note = {
     title,
@@ -45,6 +33,45 @@ const addNote = (title, body) => {
 
 }
 
+const listNotes = () => {
+  const notes = fetchNotes();
+  console.log("Title                    Body");
+  notes.forEach((note) => {
+    let space = " ".repeat(25 - note.title.length);
+    console.log(note.title + space + note.body);
+  })
+}
+
+const readNote = (title) => {
+  const notes = fetchNotes();
+  let i = notes.findIndex(note => note.title === title);
+  if (i === -1) {
+    console.log("A note with this title does not exist.");
+  } else {
+    let space = " ".repeat(25-notes[i].title.length);
+    console.log(notes[i].title + space + notes[i].body);
+  }
+}
+
+const removeNote = (title) => {
+  const notes = fetchNotes();
+  let i = notes.findIndex(note => note.title === title);
+  if (i === -1) {
+    console.log("A note with this title does not exist.");
+  } else {
+    notes.splice(i, 1);
+    saveNotes(notes);
+    console.log("Note removed.");
+  }
+}
+
+
+
+
+
 module.exports = {
-  addNote
+  addNote,
+  listNotes,
+  readNote,
+  removeNote
 }
